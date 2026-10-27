@@ -1,0 +1,19 @@
+# dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+# env files (secrets go in Vercel project settings)
+.env*
+
+# logs
+npm-debug.log*
+
+# local tooling
+.vercel
+.claude
+.DS_Store
