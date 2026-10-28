@@ -49,7 +49,7 @@ export default function SiteFooter() {
 
         {columns.map((c) => (
           <nav key={c.title} aria-label={c.title}>
-            <h2 className="label">{c.title}</h2>
+            <h3 className="label">{c.title}</h3>
             <ul>
               {c.links.map((l) => (
                 <li key={l.label}><a href={l.href}>{l.label}</a></li>
@@ -59,7 +59,7 @@ export default function SiteFooter() {
         ))}
 
         <div className="footer-news">
-          <h2 className="label">Newsletter</h2>
+          <h3 className="label">Newsletter</h3>
           {newsletterAction ? (
             <form action={newsletterAction} method="post" className="news-form">
               <label htmlFor="sub_email" className="sr-only">Email address</label>

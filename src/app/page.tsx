@@ -1,10 +1,12 @@
 import Image, { type StaticImageData } from "next/image";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { categories, collections, nav, productUrl, social } from "@/lib/site";
+import Preloader from "@/components/Preloader";
+import CollectionsSection from "@/components/CollectionsSection";
+import ProductCard from "@/components/ProductCard";
+import { categories, nav, social } from "@/lib/site";
 
 import heroImg from "@/assets/Slideshow/17280265262.jpg";
-import collectionsImg from "@/assets/Slideshow/17280265664.jpg";
 import craftImg from "@/assets/Slideshow/17280265653.jpg";
 import tribeImg from "@/assets/Slideshow/17280265363.jpg";
 import closingImg from "@/assets/Slideshow/17280265502.jpg";
@@ -40,11 +42,10 @@ const products = [
 
 const textiles = ["Shephalee Silk", "Shephalee Tissue Silk", "Shephalee Tussar", "Shephalee Cotton"];
 
-const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
-
 export default function Home() {
   return (
     <>
+      <Preloader />
       <SiteHeader />
       <main>
         {/* 03 — Hero */}
@@ -84,7 +85,7 @@ export default function Home() {
                       style={c.pos ? { objectPosition: c.pos } : undefined}
                     />
                   </span>
-                  <span className="cat-label">{c.label}</span>
+                  <h3 className="cat-label">{c.label}</h3>
                 </a>
               </li>
             ))}
@@ -92,28 +93,7 @@ export default function Home() {
         </section>
 
         {/* 05 — Collections */}
-        <section className="collections" aria-labelledby="col-title">
-          <div className="collections-media">
-            <Image
-              src={collectionsImg}
-              alt="A model in an ivory silk saree with a green and maroon border, in a candlelit royal chamber"
-              placeholder="blur"
-              sizes="(min-width: 960px) 55vw, 100vw"
-              className="cover"
-            />
-          </div>
-          <div className="collections-index">
-            <h2 id="col-title" className="label">Our collections</h2>
-            <ol>
-              {collections.map((c) => (
-                <li key={c.name}>
-                  <a href={c.href}>{c.name}</a>
-                </li>
-              ))}
-            </ol>
-            <a className="text-link" href={nav.collections}>View all collections</a>
-          </div>
-        </section>
+        <CollectionsSection />
 
         {/* 06 — Craftsmanship */}
         <section className="section craft" aria-labelledby="craft-title">
@@ -147,52 +127,39 @@ export default function Home() {
           </header>
           <ul className="prod-grid">
             {products.map((p) => (
-              <li key={p.code}>
-                <a href={productUrl(p.slug)} className="prod">
-                  <span className="frame frame-prod">
-                    <Image src={p.img} alt={p.name} placeholder="blur" sizes="(min-width: 960px) 23vw, 46vw" className="cover zoom" />
-                  </span>
-                  <span className="prod-code">{p.code}</span>
-                  <span className="prod-name">{p.name}</span>
-                  <span className="prod-price">
-                    <span>{inr(p.price)}</span>
-                    <s><span className="sr-only">Original price </span>{inr(p.mrp)}</s>
-                  </span>
-                  {p.soldOut && <span className="prod-stock">Out of stock</span>}
-                </a>
-              </li>
+              <ProductCard key={p.code} product={p} />
             ))}
           </ul>
         </section>
 
-        {/* 08 — Community */}
-        <section className="section tribe" aria-labelledby="tribe-title">
+        {/* 08 — Community (#shephaleetribe full-viewport editorial) */}
+        <section className="tribe" aria-labelledby="tribe-title">
           <div className="tribe-media">
             <Image
               src={tribeImg}
               alt="Two women laughing on a colonnaded balcony in violet and apricot silk sarees"
               placeholder="blur"
-              sizes="(min-width: 960px) 62vw, 100vw"
+              sizes="100vw"
               className="cover"
             />
           </div>
-          <div className="tribe-copy">
-            <h2 id="tribe-title" className="title">#shephaleetribe</h2>
-            <p>Share how you wear SHEPHALEE and follow the house for new collections and campaigns.</p>
-            <ul className="inline-links">
-              <li><a className="text-link" href={social.instagram} rel="noopener">Instagram</a></li>
-              <li><a className="text-link" href={social.facebook} rel="noopener">Facebook</a></li>
-              <li><a className="text-link" href={social.pinterest} rel="noopener">Pinterest</a></li>
-            </ul>
+          <div className="tribe-overlay">
+            <div className="tribe-content">
+              <h2 id="tribe-title" className="title tribe-title">#shephaleetribe</h2>
+              <p className="tribe-desc">
+                Share how you wear SHEPHALEE and follow the house for new collections and campaigns.
+              </p>
+              <ul className="inline-links tribe-links" aria-label="Social channels">
+                <li><a className="text-link" href={social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a className="text-link" href={social.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                <li><a className="text-link" href={social.pinterest} target="_blank" rel="noopener noreferrer">Pinterest</a></li>
+              </ul>
+            </div>
           </div>
         </section>
 
-        {/* 09 — Closing statement */}
+        {/* 09 — Closing ("Six Yards of Sheer Brilliance" full-viewport editorial) */}
         <section className="closing" aria-labelledby="close-title">
-          <div className="closing-copy">
-            <h2 id="close-title" className="display">Six yards of sheer brilliance</h2>
-            <a className="text-link" href={nav.collections}>Explore the collections</a>
-          </div>
           <div className="closing-media">
             <Image
               src={closingImg}
@@ -201,6 +168,14 @@ export default function Home() {
               sizes="100vw"
               className="cover"
             />
+          </div>
+          <div className="closing-overlay">
+            <div className="closing-content">
+              <h2 id="close-title" className="display closing-title">Six yards of sheer brilliance</h2>
+              <a className="text-link closing-cta" href={nav.collections}>
+                Explore the collections
+              </a>
+            </div>
           </div>
         </section>
       </main>
